@@ -1,0 +1,22 @@
+{
+  "positive": {
+    "count": 32,
+    "sha256": "8f384c5771eafe0d501efbec744341fc698151901e5e41f0afd6d7921359ad07"
+  },
+  "negative": {
+    "count": 32,
+    "sha256": "3da6585d422c2b693fdd251443d4e128f635a9f2ee950ab3f767e4712ded66b4"
+  },
+  "dipole": {
+    "count": 44,
+    "sha256": "701475d96af4b4a7654b57dc85c4307457409170a627358c6caaedc6d81aee84"
+  },
+  "like": {
+    "count": 64,
+    "sha256": "43ebe988e029c6075032bb8e0e2ffb8bdfb534f98ee435213342fd50393c88c4"
+  },
+  "unequal": {
+    "count": 31,
+    "sha256": "4546ef6f873b87f81fef1d66e4f2cb43e99b8cd0616d62d2013e44a6b645cec0"
+  }
+}

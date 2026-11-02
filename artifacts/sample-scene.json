@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "application": "FIELDWORK",
+  "charges": [
+    {
+      "id": 1,
+      "x": -1,
+      "y": 0,
+      "q": 1e-9
+    },
+    {
+      "id": 2,
+      "x": 1,
+      "y": 0,
+      "q": -3e-9
+    }
+  ],
+  "view": {
+    "x": 0,
+    "y": 0,
+    "scale": 105.38461538461539
+  },
+  "settings": {
+    "lineDensity": 32,
+    "arrowDensity": 1,
+    "lineWidth": 1.2,
+    "arrowSize": 5,
+    "showArrows": true,
+    "showGrid": true
+  }
+}

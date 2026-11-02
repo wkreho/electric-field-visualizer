@@ -1,0 +1,68 @@
+/* Focused layout and controls. Canvas camera coordinates stay independent of CSS. */
+.app-header { height: 56px; padding: 0 22px; }
+.brand { font-size: 16px; gap: 10px; }
+.brand-mark { width: 28px; height: 31px; border-radius: 7px; font-size: 25px; }
+.workspace { height: calc(100dvh - 56px); }
+.sidebar { width: 300px; padding: 5px 18px 14px; }
+.sidebar section:first-of-type { border-top: 0; }
+.sidebar section { padding: 15px 0; }
+.canvas-toolbar { height: 48px; padding: 0 18px; }
+.statusbar { height: 28px; }
+#field-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+#status-text { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#selected-badge { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#charge-name { font-size: 12px; }
+.charge-value-label { margin-top: 13px; }
+.charge-row-info strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.charge-row .q-value { flex-shrink: 0; }
+.probe-card { left: 18px; right: auto; top: 18px; bottom: auto; width: 176px; padding: 12px; background: #141e29d9; }
+.probe-heading { letter-spacing: 0; font-size: 10px; }
+.probe-magnitude { font-size: 23px; margin: 12px 0; }
+.probe-details { gap: 7px; padding-top: 9px; }
+.probe-position { border-top: 1px solid #2a3744; margin-top: 10px; padding-top: 9px; color: #8299ac; font: 9px Consolas, monospace; overflow-wrap: anywhere; }
+.canvas-bottom { left: 18px; right: 18px; bottom: 18px; z-index: 2; }
+.field-view-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; pointer-events: auto; }
+.maximize-button { display: grid; place-items: center; width: 36px; height: 36px; background: #18212de8; border: 1px solid #334150; color: #afc6d4; }
+.maximize-button:hover { background: #304437; border-color: #638674; color: #dcf4e8; }
+.field-switches, .field-tools { position: absolute; top: 18px; z-index: 2; border: 1px solid #334150; border-radius: 7px; background: #18212ddc; backdrop-filter: blur(8px); }
+.field-switches { right: 18px; height: 38px; padding: 0 12px; display: flex; gap: 12px; align-items: center; }
+.field-switches label { display: flex; align-items: center; gap: 9px; color: #bdcdd8; font-size: 11px; cursor: pointer; }
+.field-controls-divider { height: 15px; width: 1px; background: #354451; }
+.field-tools { left: 18px; padding: 4px; gap: 4px; display: none; }
+.field-tools button { display: grid; place-items: center; width: 32px; height: 30px; font-size: 20px; border-color: transparent; background: transparent; }
+.field-tools button:hover { background: #2b3947; }
+.field-tools button.active { border-color: #527462; background: #2b4438; }
+
+/* Browser-viewport maximization; no browser Fullscreen API or F11 state. */
+body.field-maximized { overflow: hidden; }
+.field-maximized .app-header,
+.field-maximized .sidebar,
+.field-maximized .canvas-toolbar,
+.field-maximized .statusbar { display: none; }
+.field-maximized .workspace { height: 100dvh; }
+.field-maximized .canvas-container { position: fixed; inset: 0; width: 100%; height: 100dvh; z-index: 40; }
+.field-maximized .field-tools { display: flex; }
+.field-maximized .probe-card { top: 74px; }
+.field-maximized .toast { z-index: 60; }
+
+@media (max-width: 1100px) {
+  .sidebar { width: 260px; padding-left: 14px; padding-right: 14px; }
+  .canvas-toolbar { padding: 0 10px; }
+}
+@media (max-width: 760px) {
+  .app-header { padding: 0 14px; }
+  .sidebar { width: 230px; padding-left: 12px; padding-right: 12px; }
+  .probe-card { width: 153px; left: 12px; top: 67px; }
+  .field-switches { right: 12px; top: 12px; height: 34px; gap: 9px; padding: 0 10px; }
+  .field-switches label { gap: 7px; font-size: 10px; }
+  .field-maximized .probe-card { top: 64px; }
+  .field-tools { left: 12px; top: 12px; }
+  .field-tools button { width: 27px; height: 26px; font-size: 18px; }
+  .canvas-bottom { left: 12px; right: 12px; bottom: 14px; }
+}
+@media (max-width: 480px) {
+  .workspace { height: auto; }
+  .sidebar { width: 100%; }
+  .main-panel { height: 76dvh; }
+  .field-maximized .main-panel { height: 100dvh; min-height: 0; }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151d"><meta name="description" content="쿨롱 법칙과 RK4 수치 적분으로 탐구하는 인터랙티브 전기장 실험실">
+  <title>FIELDWORK — Electric Field Lab</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/field-controls.css">
+  <script defer src="js/physics.js"></script><script defer src="js/fieldLines.js"></script>
+  <script defer src="js/renderer.js"></script><script defer src="js/ui.js"></script><script defer src="js/main.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="Fieldwork 홈"><span class="brand-mark">ϟ</span><span>FIELDWORK</span></a>
+    <div class="file-actions"><button id="import-btn" title="배치 JSON 불러오기">↥ <span>불러오기</span></button><button id="save-btn" title="배치 JSON 저장">↓ <span>JSON 저장</span></button><button id="png-btn" class="primary">▧ <span>이미지 저장</span></button><input type="file" id="import-file" accept=".json,application/json" hidden></div>
+  </header>
+  <div class="workspace">
+    <aside class="sidebar">
+      <section><div class="section-heading"><h2><span>01</span> 전하 배치</h2><span class="badge" id="charge-count">2 CHARGES</span></div>
+        <div class="add-actions"><button class="add-positive" data-mode="positive">＋ 양전하 추가</button><button class="add-negative" data-mode="negative">− 음전하 추가</button></div>
+        <label class="field-label" for="preset">예제 배치 <span>PRESETS</span></label>
+        <select id="preset"><option value="dipole">Electric Dipole · 전기 쌍극자</option><option value="positive">Single Positive · 단일 양전하</option><option value="negative">Single Negative · 단일 음전하</option><option value="like">Two Positive · 두 양전하</option><option value="unequal">Unequal Charges · +1 / −3 nC</option></select>
+        <div id="charge-list" class="charge-list" aria-label="전하 목록"></div>
+        <button id="clear-btn" class="text-button danger">모든 전하 지우기</button>
+      </section>
+      <section><div class="section-heading"><h2><span>02</span> 선택한 전하</h2><span id="selected-badge" class="muted">Q1</span></div>
+        <form id="charge-form" novalidate><fieldset id="charge-fields">
+          <label class="field-label" for="charge-name">이름</label><input id="charge-name" type="text" value="Q1" autocomplete="off" aria-describedby="edit-error">
+          <label class="field-label charge-value-label" for="charge-q">전하량 <span>C</span></label><div class="charge-input"><input id="charge-q" type="text" inputmode="decimal" value="1e-9" autocomplete="off" aria-describedby="edit-error"><span>C</span></div>
+          <div class="quick-units"><button type="button" data-q="1e-9">+1 nC</button><button type="button" data-q="-1e-9">−1 nC</button><button type="button" data-flip>± 반전</button></div>
+          <div class="coordinate-inputs"><label>X <input id="charge-x" type="text" inputmode="decimal" autocomplete="off"><span>m</span></label><label>Y <input id="charge-y" type="text" inputmode="decimal" autocomplete="off"><span>m</span></label></div>
+          <p id="edit-error" class="error" role="alert"></p><div class="editor-actions"><button type="submit" class="apply-button">변경 적용 <span>↵</span></button><button type="button" id="delete-btn" title="선택 전하 삭제 (Delete)" aria-label="선택 전하 삭제">삭제</button></div>
+        </fieldset></form>
+      </section>
+      <section><div class="section-heading"><h2><span>03</span> 시각화 설정</h2><button id="settings-reset" class="tiny-button" title="시각화 설정 초기화">초기화</button></div>
+        <div class="slider-setting"><label for="line-density">전기력선 밀도 <output id="line-density-value">32</output></label><input id="line-density" type="range" min="8" max="64" step="2" value="32"></div>
+        <div class="slider-setting"><label for="arrow-density">화살표 밀도 <output id="arrow-density-value">1.0×</output></label><input id="arrow-density" type="range" min="0.4" max="2" step="0.1" value="1"></div>
+        <div class="slider-setting"><label for="line-width">선 굵기 <output id="line-width-value">1.2 px</output></label><input id="line-width" type="range" min="0.5" max="3" step="0.1" value="1.2"></div>
+        <div class="slider-setting"><label for="arrow-size">화살표 크기 <output id="arrow-size-value">5 px</output></label><input id="arrow-size" type="range" min="3" max="9" step="0.5" value="5"></div>
+        <label class="toggle-row" for="show-arrows">방향 화살표 <input id="show-arrows" type="checkbox" checked role="switch"></label><label class="toggle-row" for="show-grid">좌표 격자 <input id="show-grid" type="checkbox" checked role="switch"></label>
+        <label class="toggle-row" for="show-field-controls">필드 내부 컨트롤 표시 <input id="show-field-controls" type="checkbox" checked role="switch"></label>
+      </section>
+    </aside>
+    <main class="main-panel" aria-label="전기장 시뮬레이션">
+      <div class="canvas-toolbar"><div class="tools" role="group" aria-label="도구"><button data-mode="select" class="active" title="선택 / 전하 이동 (V)"><span>↖</span> 선택</button><button data-mode="positive" title="양전하 추가 (+)"><span class="red">⊕</span> 양전하</button><button data-mode="negative" title="음전하 추가 (-)"><span class="blue">⊖</span> 음전하</button><span class="tool-divider"></span><button data-mode="pan" title="화면 이동 (H / Space)"><span>✥</span> 이동</button></div><div class="view-actions"><button id="fit-btn" title="모든 전하 보기 (F)">⊡ <span>전체 보기</span></button><button id="reset-view" title="화면 위치·확대 초기화">↺ <span>뷰 초기화</span></button><button id="help-btn" aria-label="사용 방법" title="사용 방법">?</button></div></div>
+      <div class="canvas-container" id="canvas-container"><canvas id="field-canvas" tabindex="0" aria-label="전기장 좌표평면. 클릭으로 전하를 선택하고 드래그로 이동합니다."></canvas>
+        <div class="field-tools" role="group" aria-label="최대화 필드 도구"><button data-mode="select" title="선택 (V)" aria-label="필드 선택 도구">↖</button><button data-mode="positive" title="양전하 추가 (+)" aria-label="필드 양전하 추가" class="red">⊕</button><button data-mode="negative" title="음전하 추가 (-)" aria-label="필드 음전하 추가" class="blue">⊖</button><button data-mode="pan" title="화면 이동 (H)" aria-label="필드 이동 도구">✥</button></div>
+        <div class="field-switches" id="field-controls" role="group" aria-label="필드 표시 컨트롤"><label for="field-arrows">Arrows <input id="field-arrows" type="checkbox" role="switch" checked></label><span class="field-controls-divider"></span><label for="field-grid">Grid <input id="field-grid" type="checkbox" role="switch" checked></label></div>
+        <div class="probe-card"><div class="probe-heading">전기장 <span>N/C</span></div><div class="probe-magnitude" id="probe-mag">—<small>마우스를 올려 측정</small></div><div class="probe-details"><span>Eₓ <b id="probe-ex">—</b></span><span>Eᵧ <b id="probe-ey">—</b></span><span>방향 <b id="probe-angle">—</b></span></div><div class="probe-position" id="probe-position">x — m · y — m</div></div>
+        <div class="canvas-bottom"><div class="legend"><span><i class="positive-dot"></i> 양전하</span><span><i class="negative-dot"></i> 음전하</span><span class="legend-line">⟶ <span>전기력선</span></span></div><div class="field-view-actions"><div class="zoom-control"><button id="zoom-out" aria-label="축소">−</button><span id="zoom-value">100%</span><button id="zoom-in" aria-label="확대">＋</button></div><button id="maximize-btn" class="maximize-button" aria-label="필드 최대화" aria-pressed="false" title="필드 최대화"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="maximize-icon" d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/></svg></button></div></div>
+        <div class="empty-state" id="empty-state" hidden><span>⊕ &nbsp; ⊖</span><h2>첫 번째 전하를 놓아보세요</h2><p>양전하 또는 음전하 도구를 선택한 뒤 좌표평면을 클릭하세요.</p></div>
+      </div>
+      <footer class="statusbar"><span><i class="live-dot"></i> <span id="status-text">준비됨</span></span><span class="cursor-position" id="cursor-position">x 0.000 m &nbsp; y 0.000 m</span><span id="line-count">0 field lines</span><span id="compute-status">계산 중</span></footer>
+    </main>
+  </div>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <dialog id="help-dialog"><div class="dialog-heading"><h2>실험실 사용 방법</h2><button id="close-help" aria-label="닫기">×</button></div><p>전하를 배치하고, 움직이고, 전기장의 변화를 살펴보세요.</p><dl><dt>V / H</dt><dd>선택 / 화면 이동 도구</dd><dt>+ / −</dt><dd>양전하 / 음전하 추가 도구</dd><dt>드래그</dt><dd>전하 이동 · 빈 공간에서 화면 이동</dd><dt>Space + 드래그</dt><dd>어떤 도구에서도 화면 이동</dd><dt>휠 / F</dt><dd>커서 중심 확대·축소 / 모든 전하 보기</dd><dt>Delete</dt><dd>선택 전하 삭제</dd><dt>Esc</dt><dd>필드 최대화 해제 / 선택 도구</dd></dl><p class="help-note">전하량은 C 단위입니다. 1e-9 = 1 nC, 1e-6 = 1 μC.<br>화살표 간격은 화면에 샘플링한 |E|의 로그 범위로 정규화합니다.<br>점전하 중심의 전기장은 정의되지 않습니다.</p></dialog>
+  <dialog id="clear-dialog" aria-labelledby="clear-title"><div class="dialog-heading"><h2 id="clear-title">모든 전하를 지울까요?</h2></div><p>현재 배치의 모든 전하가 삭제됩니다.<br>배치를 보관하려면 먼저 JSON으로 저장하세요.</p><div class="editor-actions"><button id="cancel-clear" autofocus>취소</button><button id="confirm-clear" class="danger">모든 전하 삭제</button></div></dialog>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "application": "FIELDWORK",
+  "charges": [
+    {
+      "id": 5,
+      "name": "Test Charge",
+      "x": -1.25,
+      "y": 0.5,
+      "q": -2e-9
+    }
+  ],
+  "view": {
+    "x": 0,
+    "y": 0,
+    "scale": 125.64102564102565
+  },
+  "settings": {
+    "lineDensity": 32,
+    "arrowDensity": 1,
+    "lineWidth": 1.2,
+    "arrowSize": 5,
+    "showArrows": true,
+    "showGrid": false,
+    "showFieldControls": false
+  }
+}
