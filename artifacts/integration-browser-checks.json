@@ -1,0 +1,141 @@
+[
+  {
+    "test": "Native text undo",
+    "value": "Test chang",
+    "history": "0"
+  },
+  {
+    "test": "CtrlZ rename",
+    "value": "Test"
+  },
+  {
+    "test": "CtrlY rename",
+    "value": "Orbiter"
+  },
+  {
+    "test": "CtrlShiftZ rename",
+    "value": "Orbiter"
+  },
+  {
+    "test": "Property batch undo",
+    "q": "-1e-9",
+    "mass": "1e-8",
+    "vx": "0"
+  },
+  {
+    "test": "Fixed undo",
+    "value": "free"
+  },
+  {
+    "test": "New edit clears redo",
+    "enabled": false
+  },
+  {
+    "test": "One drag one history",
+    "before": "3",
+    "after": "4",
+    "x": "1.8891509433962264"
+  },
+  {
+    "test": "Drag undo",
+    "x": "1.5",
+    "y": "0",
+    "vx": "0.1"
+  },
+  {
+    "test": "Drag redo",
+    "x": "1.8891509433962264"
+  },
+  {
+    "test": "Point add",
+    "count": "2 / 16"
+  },
+  {
+    "test": "Point add undo",
+    "count": "1 / 16"
+  },
+  {
+    "test": "Delete undo",
+    "count": "2 / 16",
+    "selected": "Q2"
+  },
+  {
+    "test": "Ring radius undo",
+    "radius": "1.1"
+  },
+  {
+    "test": "Ring radius redo",
+    "radius": "1.3"
+  },
+  {
+    "test": "Disk radius undo",
+    "radius": "0.85"
+  },
+  {
+    "test": "Frames excluded",
+    "history": "1",
+    "time": "6.650 s"
+  },
+  {
+    "test": "Undo while running",
+    "status": "일시정지",
+    "name": "Disk"
+  },
+  {
+    "test": "Resume and reset after redo",
+    "time": "0.000 s",
+    "x": "1.5"
+  },
+  {
+    "test": "Clear all",
+    "count": "0 / 16"
+  },
+  {
+    "test": "Clear undo",
+    "count": "2 / 16"
+  },
+  {
+    "test": "Imported scene undo",
+    "name": "Test"
+  },
+  {
+    "test": "Imported scene redo",
+    "name": "Fixed Source",
+    "time": "0.250 s"
+  },
+  {
+    "test": "Repository subpath main",
+    "title": "FIELDWORK — Electric Field & Charge Motion",
+    "field": "20 lines · 6 ms"
+  },
+  {
+    "test": "Legacy redirect",
+    "url": "http://127.0.0.1:8002/electric-field-visualizer/index.html?legacy=1#field"
+  },
+  {
+    "test": "ring add undo/redo",
+    "type": "ring",
+    "undoCount": "1 / 16",
+    "redoCount": "2 / 16"
+  },
+  {
+    "test": "disk add undo/redo",
+    "type": "disk",
+    "undoCount": "1 / 16",
+    "redoCount": "2 / 16"
+  },
+  {
+    "test": "Hide overlay",
+    "visible": false,
+    "maximize": true
+  },
+  {
+    "test": "Maximize",
+    "className": "simulation-page field-maximized"
+  },
+  {
+    "test": "Mobile layout",
+    "scrollWidth": 375,
+    "width": 375
+  }
+]

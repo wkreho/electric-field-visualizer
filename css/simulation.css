@@ -59,3 +59,6 @@
 }
 @media(max-width: 620px) { .sim-topbar { display: block; right: 12px; }.sim-transport { gap: 3px; padding: 4px; flex-wrap: nowrap; }.sim-transport button { font-size: 10px; padding: 7px 6px; }#sim-time { font-size: 10px; padding: 0 3px; }.sim-state { display: none; }.sim-mode-tools { width: fit-content; margin-top: 6px; }.sim-field-controls { top: 102px; }.sim-energy { top: 147px; }.simulation-page .sim-probe { width: 135px; }.sim-warning { font-size: 10px; } }
 @media(max-width: 480px) { .simulation-page .sidebar { width: 100%; }.simulation-page .main-panel { min-height: 540px; height: 82dvh; }.simulation-page.field-maximized .main-panel { min-height: 0; height: 100dvh; }.sim-probe .probe-magnitude { margin: 8px 0; font-size: 18px; }.sim-probe .probe-details { gap: 5px; }.sim-legend .force-color { display: none; } }
+
+.quick-charge{display:flex;gap:6px;margin-top:7px}.quick-charge button{flex:1;font-size:11px;padding:5px}.sim-mode-tools #edit-undo,.sim-mode-tools #edit-redo{font-size:20px}.sim-mode-tools button:disabled{opacity:.3;cursor:default}[hidden]{display:none!important}
+@media(max-width:480px){.workspace{height:auto}.app-header{gap:8px}}

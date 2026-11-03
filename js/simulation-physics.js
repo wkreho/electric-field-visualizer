@@ -5,7 +5,7 @@
   const P=root.EFPhysics||(typeof require!=='undefined'&&require('./physics.js'));
   const LIMITS=Object.freeze({bodies:16,position:1e6,charge:1e-3,minMass:1e-18,maxMass:1e6,minRadius:.005,maxRadius:1000,velocity:1e6,pairs:120000});
   const QUALITY=Object.freeze({low:{ring:16,radial:2,angular:16},medium:{ring:32,radial:4,angular:24},high:{ring:64,radial:8,angular:32}});
-  const DEFAULTS=Object.freeze({dt:.002,speed:1,collisionRadius:.015,quality:'medium',fieldQuality:'low',fieldInterval:400,lineDensity:20,arrowDensity:1,lineWidth:1.1,arrowSize:4.5,showFieldLines:true,showArrows:true,showTrails:true,showVelocity:true,showForces:false,showGrid:true});
+  const DEFAULTS=Object.freeze({dt:.002,speed:1,collisionRadius:.015,quality:'medium',fieldQuality:'low',fieldInterval:400,lineDensity:20,arrowDensity:1,lineWidth:1.1,arrowSize:4.5,showFieldLines:true,showArrows:true,showTrails:true,showVelocity:true,showForces:false,showGrid:true,showFieldControls:true});
   const clone=items=>items.map(b=>({...b}));
   const templates=new Map();
   function offsets(body,quality='medium') {
@@ -92,14 +92,18 @@
   }
   function validateSettings(input={}){
     if(!input||typeof input!=='object'||Array.isArray(input))throw new Error('설정 형식이 잘못되었습니다.');
-    const settings={...DEFAULTS},ranges={dt:[1e-5,.02],speed:[.1,8],collisionRadius:[1e-5,.2],fieldInterval:[150,1500],lineDensity:[8,36],arrowDensity:[.4,2],lineWidth:[.5,3],arrowSize:[3,9]};
+    const settings={...DEFAULTS},ranges={dt:[1e-5,.02],speed:[.1,8],collisionRadius:[1e-5,.2],fieldInterval:[150,1500],lineDensity:[8,64],arrowDensity:[.4,2],lineWidth:[.5,3],arrowSize:[3,9]};
     for(const [key,[min,max]]of Object.entries(ranges))if(key in input)settings[key]=number(input[key],min,max,key);
     for(const key of ['quality','fieldQuality'])if(key in input){if(typeof input[key]!=='string'||!Object.hasOwn(QUALITY,input[key]))throw new Error('샘플 품질 설정이 잘못되었습니다.');settings[key]=input[key];}
-    for(const key of ['showFieldLines','showArrows','showTrails','showVelocity','showForces','showGrid'])if(key in input){if(typeof input[key]!=='boolean')throw new Error('표시 설정은 true 또는 false여야 합니다.');settings[key]=input[key];}
+    for(const key of ['showFieldLines','showArrows','showTrails','showVelocity','showForces','showGrid','showFieldControls'])if(key in input){if(typeof input[key]!=='boolean')throw new Error('표시 설정은 true 또는 false여야 합니다.');settings[key]=input[key];}
     return settings;
   }
   function validateScene(data){
-    if(!data||data.application!=='FIELDWORK_SIMULATION'||data.version!==1)throw new Error('Dynamic Simulation JSON(version 1)을 선택하세요. 정적 배치는 Field Visualizer에서 불러올 수 있습니다.');
+    if(data?.version===1&&Array.isArray(data.charges)&&(!data.application||data.application==='FIELDWORK')){
+      const legacy=P.validateScene(data);
+      data={application:'FIELDWORK_SIMULATION',version:1,bodies:legacy.charges.map(c=>body(c.id,c.name,'point',c.q,c.x,c.y)),settings:legacy.settings,view:legacy.view,time:0};
+    }
+    if(!data||data.application!=='FIELDWORK_SIMULATION'||data.version!==1)throw new Error('FIELDWORK Simulation 또는 기존 FIELDWORK JSON(version 1)을 선택하세요.');
     const bodies=validateBodies(data.bodies),initial=validateBodies(data.initialBodies??data.bodies),settings=validateSettings(data.settings);
     if(initial.length!==bodies.length||bodies.some(b=>!initial.some(i=>i.id===b.id)))throw new Error('현재 배치와 초기 배치의 ID가 일치하지 않습니다.');
     const view=data.view;if(!view)throw new Error('화면 설정이 없습니다.');
@@ -146,6 +150,11 @@
   }
   function body(id,name,type,q,x,y,fixed=true,radius=0,mass=1e-8,vx=0,vy=0){return {id,name,type,q,x,y,fixed,radius,mass,vx,vy};}
   const PRESETS=Object.freeze({
+    fieldPositive:{label:'Field · Single Positive',description:'고정 양전하의 방사형 전기장입니다.',bodies:[body(1,'Q1','point',1e-9,0,0)]},
+    fieldNegative:{label:'Field · Single Negative',description:'고정 음전하로 향하는 전기장입니다.',bodies:[body(1,'Q1','point',-1e-9,0,0)]},
+    fieldDipole:{label:'Field · Dipole',description:'같은 크기의 고정 양·음전하입니다.',bodies:[body(1,'Q1','point',1e-9,-1,0),body(2,'Q2','point',-1e-9,1,0)]},
+    fieldLike:{label:'Field · Like Charges',description:'두 고정 양전하의 전기장입니다.',bodies:[body(1,'Q1','point',1e-9,-1,0),body(2,'Q2','point',1e-9,1,0)]},
+    fieldUnequal:{label:'Field · Unequal Charges',description:'전하량 비가 1 : −3인 고정 전하입니다.',bodies:[body(1,'Q1','point',1e-9,-1,0),body(2,'Q2','point',-3e-9,1,0)]},
     single:{label:'Fixed + Free Point',description:'음전하의 초기 속도가 만드는 고정 양전하 주변의 궤도 운동입니다.',bodies:[body(1,'Source','point',1e-8,0,0),body(2,'Test','point',-1e-9,1.5,0,false,0,1e-8,0,Math.sqrt(P.K*1e-9/1.5))]},
     dipole:{label:'Electric Dipole',description:'고정 쌍극자의 비균일 전기장이 시험전하의 실제 경로를 휘게 합니다.',bodies:[body(1,'Positive','point',1e-8,-1,0),body(2,'Negative','point',-1e-8,1,0),body(3,'Test','point',1e-10,0,1.6,false,0,1e-8,0,.3)]},
     like:{label:'Two Positive Charges',description:'두 고정 양전하로부터 같은 부호의 자유 전하가 밀려납니다.',bodies:[body(1,'Left','point',1e-8,-1,0),body(2,'Right','point',1e-8,1,0),body(3,'Test','point',1e-9,0,.45,false,0,1e-8,.2,0)]},
