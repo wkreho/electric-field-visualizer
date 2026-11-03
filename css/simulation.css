@@ -1,0 +1,61 @@
+.simulation-page .sidebar { width: 304px; }
+.simulation-page .main-panel { min-width: 0; }
+.distribution-buttons { display: flex; gap: 5px; margin-bottom: 13px; }
+.distribution-buttons button { flex: 1; padding: 9px 3px; font-size: 11px; color: #b2d7c5; }
+.distribution-buttons button.active { background: #294638; border-color: #6e9b82; }
+.sim-note { font-size: 10px; line-height: 1.65; color: #7f94a9; margin: 9px 0; }
+.body-list { max-height: 170px; overflow-y: auto; scrollbar-width: thin; }
+.body-row { width: 100%; padding: 9px; margin: 5px 0; display: flex; align-items: center; gap: 8px; text-align: left; background: #17212c; border-color: transparent; }
+.body-row.active { background: #24382f; border-color: #506e60; }
+.body-row .body-sign { font-size: 22px; width: 25px; text-align: center; }
+.body-row .body-info { flex: 1; min-width: 0; }
+.body-row strong { display: block; font-size: 11px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.body-row small { display: block; font: 9px Consolas,monospace; color: #8198ab; margin-top: 5px; }
+.body-row .body-kind { color: #9aaebd; font-size: 8px; text-align: right; line-height: 1.7; }
+.form-pair { display: flex; gap: 9px; margin: 11px 0; }
+.form-pair>label,.form-pair>div { flex: 1; min-width: 0; }
+.form-pair>label { display: flex; flex-direction: column; gap: 7px; font-size: 10px; color: #a3b5c5; }
+.simulation-page #body-name { margin-bottom: 1px; }
+.simulation-page input:disabled { opacity: .4; }
+.body-density { align-self: end; font: 9px Consolas,monospace; color: #9ab4a8; overflow-wrap: anywhere; padding: 7px 0; line-height: 1.7; }
+.sim-selected-values { display: flex; gap: 12px; margin-top: 13px; font-size: 9px; color: #708ba0; }
+.sim-selected-values b { font: 10px Consolas,monospace; color: #bcced8; }
+.sim-model-note { color: #90a6b7; font-size: 10px; line-height: 1.9; border-top: 1px solid #2d3c48; padding-top: 14px; }
+#body-selection { max-width: 125px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.sim-topbar { position: absolute; top: 16px; left: 16px; z-index: 3; display: flex; flex-wrap: wrap; gap: 6px; max-width: calc(100% - 275px); }
+.sim-transport,.sim-mode-tools,.sim-field-controls { display: flex; align-items: center; padding: 5px; gap: 5px; background: #18232eea; border: 1px solid #344653; border-radius: 7px; backdrop-filter: blur(8px); }
+.sim-transport button { padding: 7px 10px; font-size: 11px; background: #202d3a; }
+.sim-transport .sim-start { background: #b6e9d0; color: #1b3025; border-color: #b6e9d0; font-weight: 600; }
+#sim-time { padding: 0 7px; font: 12px Consolas,monospace; color: #d5eadf; white-space: nowrap; }
+.sim-state { color: #88a397; font-size: 9px; padding-right: 7px; white-space: nowrap; }
+.sim-state[data-state="running"] { color: #b6e9d0; }.sim-state[data-state="paused"] { color: #ebc587; }
+.sim-mode-tools button { width: 29px; height: 29px; padding: 0; font-size: 17px; background: transparent; border-color: transparent; }
+.sim-mode-tools button.active { color: #c7eddb; background: #355240; border-color: #537e65; }
+.sim-mode-tools select { width: 65px; padding: 6px 3px; font-size: 10px; }
+.sim-field-controls { position: absolute; top: 16px; right: 16px; z-index: 3; gap: 12px; padding: 12px; }
+.sim-field-controls label { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #acbecc; cursor: pointer; }
+.simulation-page .sim-probe { top: 120px; width: 170px; padding: 12px; pointer-events: none; }
+.sim-probe .probe-magnitude { font-size: 21px; margin: 12px 0; }
+.sim-probe-note { color: #bca47c; font-size: 9px; line-height: 1.5; margin-top: 7px; }
+.sim-energy { position: absolute; top: 69px; right: 18px; background: #16212be8; border: 1px solid #2e3d48; border-radius: 5px; padding: 8px 10px; pointer-events: none; }
+.sim-energy span { color: #8199ac; font-size: 9px; margin-right: 13px; }.sim-energy b { color: #b9dac9; font: 10px Consolas,monospace; }
+.sim-energy small { display: block; margin-top: 7px; color: #7f9b90; font: 8px Consolas,"Malgun Gothic",monospace; }
+.sim-legend { position: absolute; bottom: 23px; left: 18px; font-size: 9px; display: flex; gap: 12px; pointer-events: none; }
+.field-color { color: #a2d4be; }.trail-color { color: #e5bd7c; }.velocity-color { color: #6dd5ef; }.force-color { color: #dba0f5; }
+.sim-view-controls { position: absolute; bottom: 16px; right: 16px; display: flex; align-items: center; gap: 6px; z-index: 3; }
+.sim-view-controls>button { width: 34px; height: 35px; font-size: 18px; padding: 0; background: #18232eea; }
+.sim-warning { position: absolute; bottom: 72px; left: 50%; transform: translateX(-50%); width: max-content; max-width: min(650px,calc(100% - 32px)); padding: 12px 16px; color: #f4d49c; background: #3a2e20f2; border: 1px solid #887047; border-radius: 7px; font-size: 12px; line-height: 1.7; z-index: 5; }
+.simulation-page #sim-field-status { color: #759889; }.simulation-page .statusbar { gap: 14px; }
+.simulation-page .empty-state { top: 55%; }
+@media(min-width: 1550px) { .sim-topbar { max-width: calc(100% - 290px); } .simulation-page .sim-probe { top: 74px; } }
+@media(max-width: 1100px) { .simulation-page .sidebar { width: 264px; } .sim-transport button { padding: 7px 8px; }.sim-topbar { max-width: calc(100% - 265px); } }
+@media(max-width: 900px) {
+  .sim-topbar { max-width: calc(100% - 28px); top: 12px; left: 12px; }
+  .sim-field-controls { top: 107px; right: 12px; padding: 9px; }
+  .sim-energy { top: 151px; right: 12px; }
+  .simulation-page .sim-probe { top: auto; bottom: 98px; left: 12px; width: 153px; }
+  .sim-legend { left: 12px; bottom: 65px; font-size: 8px; gap: 9px; }
+  .sim-view-controls { right: 12px; bottom: 14px; }
+}
+@media(max-width: 620px) { .sim-topbar { display: block; right: 12px; }.sim-transport { gap: 3px; padding: 4px; flex-wrap: nowrap; }.sim-transport button { font-size: 10px; padding: 7px 6px; }#sim-time { font-size: 10px; padding: 0 3px; }.sim-state { display: none; }.sim-mode-tools { width: fit-content; margin-top: 6px; }.sim-field-controls { top: 102px; }.sim-energy { top: 147px; }.simulation-page .sim-probe { width: 135px; }.sim-warning { font-size: 10px; } }
+@media(max-width: 480px) { .simulation-page .sidebar { width: 100%; }.simulation-page .main-panel { min-height: 540px; height: 82dvh; }.simulation-page.field-maximized .main-panel { min-height: 0; height: 100dvh; }.sim-probe .probe-magnitude { margin: 8px 0; font-size: 18px; }.sim-probe .probe-details { gap: 5px; }.sim-legend .force-color { display: none; } }

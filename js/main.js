@@ -3,6 +3,7 @@
   const P=EFPhysics,U=EFUI,$=U.$,canvas=$('field-canvas'),renderer=new EFRenderer.Renderer(canvas);
   const state={charges:[],selected:null,nextId:1,mode:'select',maximized:false,view:{x:0,y:0,scale:130},settings:{...P.DEFAULTS}};
   const pointer={inside:false,x:0,y:0,world:{x:0,y:0}};
+  const SESSION='fieldwork.static.session.v1';
   let drag=null,space=false,worker=null,busy=false,pending=null,revision=0,queued=false,paintQueued=false,lastError=false,exportPending=false,zoomReference=130,activePointer=null;
   const presets={
     positive:{title:'Single Positive',description:'한 점에서 사방으로 퍼져나가는 전기장',charges:[[0,0,1e-9]]},
@@ -67,7 +68,7 @@
   function zoom(factor,x=renderer.width/2,y=renderer.height/2){state.view=P.zoomAt(state.view,factor,x,y,renderer.width,renderer.height);updateView();}
   function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);}
   function save(){const data={version:1,application:'FIELDWORK',charges:state.charges.map(c=>({...c})),view:{...state.view},settings:{...state.settings}};download(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),'fieldwork-scene.json');U.toast('현재 배치를 JSON으로 저장했습니다.');}
-  function load(data){const validated=P.validateScene(data);state.charges=validated.charges;state.view=validated.view;state.settings=validated.settings;state.nextId=Math.max(0,...state.charges.map(c=>c.id))+1;state.selected=state.charges[0]?.id??null;custom();refresh();U.settings(state);updateView();U.toast('전하 배치와 화면 설정을 불러왔습니다.');}
+  function load(data,silent=false){const validated=P.validateScene(data);state.charges=validated.charges;state.view=validated.view;state.settings=validated.settings;state.nextId=Math.max(0,...state.charges.map(c=>c.id))+1;state.selected=state.charges[0]?.id??null;custom();refresh();U.settings(state);updateView();if(!silent)U.toast('전하 배치와 화면 설정을 불러왔습니다.');}
   function exportPNG(){const output=renderer.exportPNG(state);output.toBlob(blob=>{if(blob){download(blob,'fieldwork-electric-field.png');U.toast('현재 화면을 PNG로 저장했습니다.');}else U.toast('이미지를 저장할 수 없습니다.');},'image/png');redraw();}
   function png(){if(busy||pending||queued){exportPending=true;U.toast('최신 전기력선 계산 후 이미지를 저장합니다.');}else exportPNG();}
   const app={setMode,maximize,preset,select,remove,edit,clear:()=>{state.charges=[];state.selected=null;changed();},resetView,fit,zoom,save,load,png,space:active=>{space=active;setMode(state.mode);},settingChanged:key=>{if(key==='lineDensity')compute();else if(key!=='showFieldControls')redraw(true);}};
@@ -96,8 +97,10 @@
   canvas.addEventListener('pointerleave',()=>{if(!drag){pointer.inside=false;U.probe(pointer,state);redraw();}});
   canvas.addEventListener('wheel',e=>{e.preventDefault();const pos=local(e);movePointer(pos);zoom(Math.exp(-Math.max(-100,Math.min(100,e.deltaY))*.0018),pos.x,pos.y);},{passive:false});
   canvas.addEventListener('contextmenu',e=>e.preventDefault());
-  const resize=new ResizeObserver(()=>{pointer.inside=false;U.probe(pointer,state);renderer.resize();updateView();});renderer.resize();resize.observe($('canvas-container'));preset('dipole');
+  const resize=new ResizeObserver(()=>{pointer.inside=false;U.probe(pointer,state);renderer.resize();updateView();});renderer.resize();resize.observe($('canvas-container'));
+  try{const saved=sessionStorage.getItem(SESSION);if(saved){const data=JSON.parse(saved);if(Number.isFinite(data.zoomReference)&&data.zoomReference>0)zoomReference=data.zoomReference;load(data.scene,true);if(state.charges.some(c=>c.id===data.selected))select(data.selected);if(Object.hasOwn(presets,data.preset))$('preset').value=data.preset;}else preset('dipole');}catch{preset('dipole');}
   // Read-only diagnostics for reproducible measurement and integration checks.
   window.fieldLab=Object.freeze({getState:()=>JSON.parse(JSON.stringify(state)),getDiagnostics:()=>({lines:renderer.data.lines.length,ms:renderer.data.ms,computing:busy||!!pending||queued,worker:!!worker,width:renderer.width,height:renderer.height}),fieldAt:(x,y)=>P.fieldAt(x,y,state.charges)});
-  window.addEventListener('pagehide',()=>{worker?.terminate();resize.disconnect();});
+  window.addEventListener('pagehide',()=>{try{sessionStorage.setItem(SESSION,JSON.stringify({scene:{version:1,charges:state.charges,view:state.view,settings:state.settings},selected:state.selected,zoomReference,preset:$('preset').value}));}catch{}worker?.terminate();resize.disconnect();});
+  window.addEventListener('pageshow',e=>{if(e.persisted)location.reload();});
 })();

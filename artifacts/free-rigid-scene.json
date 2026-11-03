@@ -1,0 +1,84 @@
+{
+  "application": "FIELDWORK_SIMULATION",
+  "version": 1,
+  "bodies": [
+    {
+      "id": 1,
+      "name": "Free Ring",
+      "type": "ring",
+      "fixed": false,
+      "q": 1e-9,
+      "x": -1.3,
+      "y": 0,
+      "radius": 0.4,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Free Disk",
+      "type": "disk",
+      "fixed": false,
+      "q": -2e-9,
+      "x": 1.3,
+      "y": 0.3,
+      "radius": 0.45,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "initialBodies": [
+    {
+      "id": 1,
+      "name": "Free Ring",
+      "type": "ring",
+      "fixed": false,
+      "q": 1e-9,
+      "x": -1.3,
+      "y": 0,
+      "radius": 0.4,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Free Disk",
+      "type": "disk",
+      "fixed": false,
+      "q": -2e-9,
+      "x": 1.3,
+      "y": 0.3,
+      "radius": 0.45,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    }
+  ],
+  "time": 0,
+  "settings": {
+    "dt": 0.002,
+    "speed": 1,
+    "collisionRadius": 0.015,
+    "quality": "medium",
+    "fieldQuality": "low",
+    "fieldInterval": 400,
+    "lineDensity": 20,
+    "arrowDensity": 1,
+    "lineWidth": 1.1,
+    "arrowSize": 4.5,
+    "showFieldLines": true,
+    "showArrows": true,
+    "showTrails": true,
+    "showVelocity": true,
+    "showForces": false,
+    "showGrid": true
+  },
+  "view": {
+    "x": 0,
+    "y": 0,
+    "scale": 120
+  }
+}

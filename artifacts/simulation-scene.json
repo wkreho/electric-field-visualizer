@@ -1,0 +1,84 @@
+{
+  "application": "FIELDWORK_SIMULATION",
+  "version": 1,
+  "bodies": [
+    {
+      "id": 1,
+      "name": "Fixed Source",
+      "type": "point",
+      "fixed": true,
+      "q": 1e-8,
+      "x": 0,
+      "y": 0,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Orbiting Test",
+      "type": "point",
+      "fixed": false,
+      "q": -1e-9,
+      "x": 1.3768945325248148,
+      "y": 0.5951154760085434,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": -0.9711443934975941,
+      "vy": 2.2469039015637793
+    }
+  ],
+  "initialBodies": [
+    {
+      "id": 1,
+      "name": "Fixed Source",
+      "type": "point",
+      "fixed": true,
+      "q": 1e-8,
+      "x": 0,
+      "y": 0,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Orbiting Test",
+      "type": "point",
+      "fixed": false,
+      "q": -1e-9,
+      "x": 1.5,
+      "y": 0,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 2.44779517012079
+    }
+  ],
+  "time": 0.25000000000000017,
+  "settings": {
+    "dt": 0.002,
+    "speed": 1,
+    "collisionRadius": 0.015,
+    "quality": "medium",
+    "fieldQuality": "low",
+    "fieldInterval": 400,
+    "lineDensity": 20,
+    "arrowDensity": 1,
+    "lineWidth": 1.1,
+    "arrowSize": 4.5,
+    "showFieldLines": true,
+    "showArrows": true,
+    "showTrails": true,
+    "showVelocity": true,
+    "showForces": false,
+    "showGrid": true
+  },
+  "view": {
+    "x": 0.5,
+    "y": 0,
+    "scale": 140
+  }
+}

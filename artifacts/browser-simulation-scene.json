@@ -1,0 +1,84 @@
+{
+  "application": "FIELDWORK_SIMULATION",
+  "version": 1,
+  "bodies": [
+    {
+      "id": 1,
+      "name": "Source",
+      "type": "point",
+      "fixed": true,
+      "q": 1e-8,
+      "x": 0,
+      "y": 0,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Test",
+      "type": "disk",
+      "fixed": false,
+      "q": -1e-9,
+      "x": 1.4797640405387409,
+      "y": 0.24367812796793453,
+      "radius": 0.3,
+      "mass": 1e-8,
+      "vx": -0.40384759888226807,
+      "vy": 2.414766023777868
+    }
+  ],
+  "initialBodies": [
+    {
+      "id": 1,
+      "name": "Source",
+      "type": "point",
+      "fixed": true,
+      "q": 1e-8,
+      "x": 0,
+      "y": 0,
+      "radius": 0,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 0
+    },
+    {
+      "id": 2,
+      "name": "Test",
+      "type": "disk",
+      "fixed": false,
+      "q": -1e-9,
+      "x": 1.5,
+      "y": 0,
+      "radius": 0.3,
+      "mass": 1e-8,
+      "vx": 0,
+      "vy": 2.44779517012079
+    }
+  ],
+  "time": 0.10000000000000007,
+  "settings": {
+    "dt": 0.001,
+    "speed": 1,
+    "collisionRadius": 0.015,
+    "quality": "medium",
+    "fieldQuality": "low",
+    "fieldInterval": 400,
+    "lineDensity": 20,
+    "arrowDensity": 1,
+    "lineWidth": 1.1,
+    "arrowSize": 4.5,
+    "showFieldLines": true,
+    "showArrows": false,
+    "showTrails": true,
+    "showVelocity": true,
+    "showForces": true,
+    "showGrid": false
+  },
+  "view": {
+    "scale": 133.8181818181818,
+    "x": 0,
+    "y": 0
+  }
+}
