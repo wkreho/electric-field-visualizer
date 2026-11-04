@@ -1,0 +1,200 @@
+[
+  {
+    "test": "Shift adds",
+    "count": "2",
+    "formEnabled": false
+  },
+  {
+    "test": "Shift removes",
+    "count": "1",
+    "name": "Test"
+  },
+  {
+    "test": "Group drag",
+    "before": "0",
+    "after": "1",
+    "selected": "2",
+    "positions": [
+      "0.424, -0.432 m",
+      "1.924, -0.432 m"
+    ]
+  },
+  {
+    "test": "Group undo",
+    "selected": "2",
+    "positions": [
+      "0.000, 0.000 m",
+      "1.500, 0.000 m"
+    ]
+  },
+  {
+    "test": "CtrlC/CtrlV group paste",
+    "count": "6 / 16",
+    "names": [
+      "Source",
+      "Test",
+      "Source Copy",
+      "Test Copy",
+      "Source Copy 2",
+      "Test Copy 2"
+    ]
+  },
+  {
+    "test": "Paste undo",
+    "count": "4 / 16"
+  },
+  {
+    "test": "Group delete",
+    "count": "4 / 16"
+  },
+  {
+    "test": "Delete undo",
+    "count": "6 / 16",
+    "selected": "2"
+  },
+  {
+    "test": "Paste limit atomic",
+    "count": "16 / 16",
+    "warning": "붙여넣기 취소: 물체는 최대 16개입니다."
+  },
+  {
+    "test": "No hover panel",
+    "visible": false
+  },
+  {
+    "test": "Probe manual analytic",
+    "ex": "8.988",
+    "ey": "0",
+    "magnitude": "8.988",
+    "angle": "0.00°"
+  },
+  {
+    "test": "Native input copy/paste",
+    "y": "1",
+    "bodyCount": "1 / 16"
+  },
+  {
+    "test": "Native probe undo",
+    "x": "1",
+    "history": "7"
+  },
+  {
+    "test": "Invalid probe coordinates",
+    "error": "Probe X: 올바른 숫자 또는 과학적 표기법을 입력하세요.",
+    "lastValue": "8.988"
+  },
+  {
+    "test": "Probe follows view",
+    "before": {
+      "bottom": 409.6666717529297,
+      "height": 193.6666717529297,
+      "left": 817.8125,
+      "right": 1033.8125,
+      "top": 216,
+      "width": 216,
+      "x": 817.8125,
+      "y": 216
+    },
+    "after": {
+      "bottom": 419.6666717529297,
+      "height": 193.6666717529297,
+      "left": 881.2708740234375,
+      "right": 1097.2708740234375,
+      "top": 226,
+      "width": 216,
+      "x": 881.2708740234375,
+      "y": 226
+    },
+    "x": "1",
+    "historyBefore": "7",
+    "historyAfter": "7"
+  },
+  {
+    "test": "Maximized probe",
+    "visible": true,
+    "bounds": {
+      "bottom": 405.6666717529297,
+      "height": 193.6666717529297,
+      "left": 729.2708740234375,
+      "right": 945.2708740234376,
+      "top": 212,
+      "width": 216,
+      "x": 729.2708740234375,
+      "y": 212
+    }
+  },
+  {
+    "test": "Escape clears probe and selection",
+    "probe": false,
+    "selected": "0"
+  },
+  {
+    "test": "Symmetry eligible UI",
+    "status": "활성 · 정확한 x축 반사대칭을 보존합니다."
+  },
+  {
+    "test": "Symmetry running axis",
+    "time": "95.306 s",
+    "y": "0",
+    "vy": "0",
+    "status": "활성 · 정확한 x축 반사대칭을 보존합니다."
+  },
+  {
+    "test": "Broken symmetry UI",
+    "status": "초기 배치·전하·질량·형태·속도가 x축 반사대칭이 아닙니다."
+  },
+  {
+    "test": "Live probe updates",
+    "before": {
+      "value": "194",
+      "time": "0.516 s"
+    },
+    "after": {
+      "value": "178",
+      "time": "103.222 s"
+    },
+    "x": "0.5",
+    "y": "0.5"
+  },
+  {
+    "test": "Singular probe",
+    "magnitude": "정의되지 않음",
+    "ex": "—",
+    "note": "전하/샘플 중심의 특이점입니다."
+  },
+  {
+    "test": "Dismiss click consumes edit",
+    "before": "2 / 16",
+    "after": "2 / 16",
+    "probe": false
+  },
+  {
+    "test": "Mobile Probe fits",
+    "canvas": {
+      "bottom": 566,
+      "height": 510,
+      "left": 0,
+      "right": 374.6666870117187,
+      "top": 56,
+      "width": 374.6666870117187,
+      "x": 0,
+      "y": 56
+    },
+    "panel": {
+      "bottom": 493.8958587646485,
+      "height": 193.6666717529297,
+      "left": 79.33333587646484,
+      "right": 295.33333587646484,
+      "top": 300.22918701171875,
+      "width": 216,
+      "x": 79.33333587646484,
+      "y": 300.22918701171875
+    },
+    "scrollWidth": 375,
+    "width": 375
+  },
+  {
+    "test": "Close button",
+    "visible": false
+  }
+]

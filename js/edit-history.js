@@ -4,12 +4,13 @@
   const S=root.EFSimulation||(typeof require!=='undefined'&&require('./simulation-physics.js'));
   const copy=value=>JSON.parse(JSON.stringify(value));
   const content=s=>JSON.stringify({bodies:s.bodies,initialBodies:s.initialBodies,time:s.time,physics:s.physics});
-  function capture(engine,meta={}){return {bodies:S.clone(engine.bodies),initialBodies:S.clone(engine.initial),time:engine.time,physics:Object.fromEntries(['dt','quality','fieldQuality','collisionRadius'].map(k=>[k,engine.settings[k]])),selected:meta.selected??null,preset:meta.preset||''};}
+  function capture(engine,meta={}){return {bodies:S.clone(engine.bodies),initialBodies:S.clone(engine.initial),time:engine.time,physics:Object.fromEntries(['dt','quality','fieldQuality','collisionRadius','preserveXAxisSymmetry'].map(k=>[k,engine.settings[k]])),selected:meta.selected??null,selection:[...(meta.selection??(meta.selected==null?[]:[meta.selected]))],preset:meta.preset||''};}
   function restore(engine,snapshot,view){
     const data=S.validateScene({application:'FIELDWORK_SIMULATION',version:1,...copy(snapshot),settings:{...engine.settings,...snapshot.physics},view});
     if(S.samples(data.bodies,data.settings.fieldQuality).length>512)throw new Error('Field sample budget exceeded.');
     engine.restore(data);if(engine.bodies.length)engine.status='paused';
-    return {selected:engine.bodies.some(b=>b.id===snapshot.selected)?snapshot.selected:null,preset:snapshot.preset};
+    const selection=(snapshot.selection??(snapshot.selected==null?[]:[snapshot.selected])).filter(id=>engine.bodies.some(b=>b.id===id));
+    return {selection,selected:engine.bodies.some(b=>b.id===snapshot.selected)?snapshot.selected:null,preset:snapshot.preset};
   }
   class History{
     constructor(limit=150,onChange=()=>{}){this.limit=Math.max(1,Math.min(200,Math.floor(limit)||150));this.undoStack=[];this.redoStack=[];this.onChange=onChange;this.pending=null;}

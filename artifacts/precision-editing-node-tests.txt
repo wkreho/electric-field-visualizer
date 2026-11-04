@@ -1,0 +1,517 @@
+TAP version 13
+# Subtest: point, ring and disk additions retain stable identity through undo/redo
+ok 1 - point, ring and disk additions retain stable identity through undo/redo
+  ---
+  duration_ms: 22.3437
+  type: 'test'
+  ...
+# Subtest: delete, clear and whole preset replacement are reversible batch edits
+ok 2 - delete, clear and whole preset replacement are reversible batch edits
+  ---
+  duration_ms: 2.3336
+  type: 'test'
+  ...
+# Subtest: name, charge, mass, radius, fixed/free, velocity and position edits roundtrip
+ok 3 - name, charge, mass, radius, fixed/free, velocity and position edits roundtrip
+  ---
+  duration_ms: 11.3674
+  type: 'test'
+  ...
+# Subtest: a multi-update drag is one transaction and clicking without motion is a no-op
+ok 4 - a multi-update drag is one transaction and clicking without motion is a no-op
+  ---
+  duration_ms: 1.9666
+  type: 'test'
+  ...
+# Subtest: physics frames, Start/Pause/Reset never create history; undo while running restores initial and current states
+ok 5 - physics frames, Start/Pause/Reset never create history; undo while running restores initial and current states
+  ---
+  duration_ms: 7.5108
+  type: 'test'
+  ...
+# Subtest: snapshots are isolated from caller mutations, failure is atomic, and new edits invalidate redo
+ok 6 - snapshots are isolated from caller mutations, failure is atomic, and new edits invalidate redo
+  ---
+  duration_ms: 3.3205
+  type: 'test'
+  ...
+# Subtest: history is bounded at 150 edits, and selection-only changes do not erase redo
+ok 7 - history is bounded at 150 edits, and selection-only changes do not erase redo
+  ---
+  duration_ms: 17.9754
+  type: 'test'
+  ...
+# Subtest: restore preserves visual settings but recovers numerical profile for consistent forces
+ok 8 - restore preserves visual settings but recovers numerical profile for consistent forces
+  ---
+  duration_ms: 0.5548
+  type: 'test'
+  ...
+# Subtest: keyboard routes Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z and leaves native input editing untouched
+ok 9 - keyboard routes Ctrl+Z, Ctrl+Y, Ctrl+Shift+Z and leaves native input editing untouched
+  ---
+  duration_ms: 1.7626
+  type: 'test'
+  ...
+# Subtest: legacy Visualizer JSON migrates to fixed points and retains styles; invalid imports leave engine intact
+ok 10 - legacy Visualizer JSON migrates to fixed points and retains styles; invalid imports leave engine intact
+  ---
+  duration_ms: 4.0967
+  type: 'test'
+  ...
+# Subtest: names reuse the smallest available Q number, independent of internal IDs
+ok 11 - names reuse the smallest available Q number, independent of internal IDs
+  ---
+  duration_ms: 1.9394
+  type: 'test'
+  ...
+# Subtest: renaming preserves ID and rejects empty, duplicate, multiline and oversized names
+ok 12 - renaming preserves ID and rejects empty, duplicate, multiline and oversized names
+  ---
+  duration_ms: 1.8883
+  type: 'test'
+  ...
+# Subtest: legacy version-1 JSON without names or field-control setting receives safe defaults
+ok 13 - legacy version-1 JSON without names or field-control setting receives safe defaults
+  ---
+  duration_ms: 8.3285
+  type: 'test'
+  ...
+# Subtest: mixed old and new records reserve explicit names and IDs before assigning defaults
+ok 14 - mixed old and new records reserve explicit names and IDs before assigning defaults
+  ---
+  duration_ms: 0.6808
+  type: 'test'
+  ...
+# Subtest: new JSON roundtrips names, stable IDs and independent control visibility
+ok 15 - new JSON roundtrips names, stable IDs and independent control visibility
+  ---
+  duration_ms: 0.5169
+  type: 'test'
+  ...
+# Subtest: ambiguous imported names and IDs are rejected before modifying a scene
+ok 16 - ambiguous imported names and IDs are rejected before modifying a scene
+  ---
+  duration_ms: 0.63
+  type: 'test'
+  ...
+# Subtest: custom display names do not affect the physical vector
+ok 17 - custom display names do not affect the physical vector
+  ---
+  duration_ms: 1.7298
+  type: 'test'
+  ...
+# Subtest: all five presets match their pre-update numerical line samples
+ok 18 - all five presets match their pre-update numerical line samples
+  ---
+  duration_ms: 166.6605
+  type: 'test'
+  ...
+# Subtest: single main page, compatibility URL and every asset load under the GitHub Pages repository prefix
+ok 19 - single main page, compatibility URL and every asset load under the GitHub Pages repository prefix
+  ---
+  duration_ms: 562.4223
+  type: 'test'
+  ...
+# Subtest: README local images and links point to existing files; browser scripts parse
+ok 20 - README local images and links point to existing files; browser scripts parse
+  ---
+  duration_ms: 17.2165
+  type: 'test'
+  ...
+# Subtest: A: single positive is radial, with the analytic Coulomb magnitude
+ok 21 - A: single positive is radial, with the analytic Coulomb magnitude
+  ---
+  duration_ms: 41.4759
+  type: 'test'
+  ...
+# Subtest: B: negative-only scene generates inward-directed lines
+ok 22 - B: negative-only scene generates inward-directed lines
+  ---
+  duration_ms: 12.7704
+  type: 'test'
+  ...
+# Subtest: C: dipole midpoint points from positive to negative and traced segments follow E
+ok 23 - C: dipole midpoint points from positive to negative and traced segments follow E
+  ---
+  duration_ms: 24.1499
+  type: 'test'
+  ...
+# Subtest: D: equal positive charges cancel at their midpoint without NaN
+ok 24 - D: equal positive charges cancel at their midpoint without NaN
+  ---
+  duration_ms: 17.3583
+  type: 'test'
+  ...
+# Subtest: E: charge scaling and inverse-square distance follow Coulomb law
+ok 25 - E: charge scaling and inverse-square distance follow Coulomb law
+  ---
+  duration_ms: 0.4568
+  type: 'test'
+  ...
+# Subtest: F: transforms round-trip and cursor-centered zoom preserves world coordinates
+ok 26 - F: transforms round-trip and cursor-centered zoom preserves world coordinates
+  ---
+  duration_ms: 0.7223
+  type: 'test'
+  ...
+# Subtest: zero charge, empty scenes and coincident opposite charges produce no spurious lines
+ok 27 - zero charge, empty scenes and coincident opposite charges produce no spurious lines
+  ---
+  duration_ms: 0.4292
+  type: 'test'
+  ...
+# Subtest: singular points are identified, nearby sources and null regions terminate safely
+ok 28 - singular points are identified, nearby sources and null regions terminate safely
+  ---
+  duration_ms: 23.3247
+  type: 'test'
+  ...
+# Subtest: unequal charges have incoming flux from infinity and retain weak-source seeds
+ok 29 - unequal charges have incoming flux from infinity and retain weak-source seeds
+  ---
+  duration_ms: 66.3793
+  type: 'test'
+  ...
+# Subtest: direction is invariant for tiny nonzero charge, rather than using an absolute field threshold
+ok 30 - direction is invariant for tiny nonzero charge, rather than using an absolute field threshold
+  ---
+  duration_ms: 0.895
+  type: 'test'
+  ...
+# Subtest: a camera panned away from every source still displays physical field lines
+ok 31 - a camera panned away from every source still displays physical field lines
+  ---
+  duration_ms: 28.2919
+  type: 'test'
+  ...
+# Subtest: arrow spacing gets denser as actual field strength rises and stays bounded
+ok 32 - arrow spacing gets denser as actual field strength rises and stays bounded
+  ---
+  duration_ms: 0.4137
+  type: 'test'
+  ...
+# Subtest: numeric inputs reject malformed, infinite, blank, overflow and underflow values
+ok 33 - numeric inputs reject malformed, infinite, blank, overflow and underflow values
+  ---
+  duration_ms: 2.4906
+  type: 'test'
+  ...
+# Subtest: JSON roundtrip preserves physical values, camera and all visualization settings
+ok 34 - JSON roundtrip preserves physical values, camera and all visualization settings
+  ---
+  duration_ms: 2.4879
+  type: 'test'
+  ...
+# Subtest: 20-charge benchmark is bounded, finite, and honors the global line budget
+ok 35 - 20-charge benchmark is bounded, finite, and honors the global line budget
+  ---
+  duration_ms: 194.2328
+  type: 'test'
+  ...
+# 20 sources, 320 lines, 193.6 ms on this host
+# Subtest: compensated sums retain an otherwise lost small summand
+ok 36 - compensated sums retain an otherwise lost small summand
+  ---
+  duration_ms: 1.861
+  type: 'test'
+  ...
+# Subtest: real tiny forces survive cancellation of large opposing forces without a zero threshold
+ok 37 - real tiny forces survive cancellation of large opposing forces without a zero threshold
+  ---
+  duration_ms: 1.3624
+  type: 'test'
+  ...
+# Subtest: every quadrature profile has exact x-axis reflection partners and the intended sample count
+ok 38 - every quadrature profile has exact x-axis reflection partners and the intended sample count
+  ---
+  duration_ms: 3.0618
+  type: 'test'
+  ...
+# Subtest: relative-center force calculation is invariant under a large exactly representable translation
+ok 39 - relative-center force calculation is invariant under a large exactly representable translation
+  ---
+  duration_ms: 7.8186
+  type: 'test'
+  ...
+# Subtest: axis motion remains exactly y=vy=0 for ring/disk at all qualities with lock OFF and ON
+ok 40 - axis motion remains exactly y=vy=0 for ring/disk at all qualities with lock OFF and ON
+  ---
+  duration_ms: 1278.2909
+  type: 'test'
+  ...
+# Subtest: strict symmetry preserves moving reflection pairs, axis trajectories and their initial conditions
+ok 41 - strict symmetry preserves moving reflection pairs, axis trajectories and their initial conditions
+  ---
+  duration_ms: 99.5654
+  type: 'test'
+  ...
+# Subtest: asymmetric scenes are bitwise identical with the optional setting ON or OFF
+ok 42 - asymmetric scenes are bitwise identical with the optional setting ON or OFF
+  ---
+  duration_ms: 10.4328
+  type: 'test'
+  ...
+# Subtest: tiny real initial y/vy and mismatched reflected properties never activate symmetry
+ok 43 - tiny real initial y/vy and mismatched reflected properties never activate symmetry
+  ---
+  duration_ms: 0.7638
+  type: 'test'
+  ...
+# Subtest: breaking current symmetry safely disables the constraint and recovers actual transverse force
+ok 44 - breaking current symmetry safely disables the constraint and recovers actual transverse force
+  ---
+  duration_ms: 0.4508
+  type: 'test'
+  ...
+# Subtest: symmetry option defaults OFF, validates types, and roundtrips JSON and history restoration
+ok 45 - symmetry option defaults OFF, validates types, and roundtrips JSON and history restoration
+  ---
+  duration_ms: 1.9094
+  type: 'test'
+  ...
+# Subtest: Shift toggle and group translation preserve IDs, spacing, charge and mass
+ok 46 - Shift toggle and group translation preserve IDs, spacing, charge and mass
+  ---
+  duration_ms: 1.2617
+  type: 'test'
+  ...
+# Subtest: copy includes rigid-body shape, mass, state and initial rather than evolved velocity
+ok 47 - copy includes rigid-body shape, mass, state and initial rather than evolved velocity
+  ---
+  duration_ms: 0.4128
+  type: 'test'
+  ...
+# Subtest: paste allocates unique names/IDs and preserves exact relative shape through repeated placement
+ok 48 - paste allocates unique names/IDs and preserves exact relative shape through repeated placement
+  ---
+  duration_ms: 1.4999
+  type: 'test'
+  ...
+# Subtest: Q names and forty-character custom names remain valid when copied
+ok 49 - Q names and forty-character custom names remain valid when copied
+  ---
+  duration_ms: 0.5872
+  type: 'test'
+  ...
+# Subtest: paste failure at body, coordinate, collision search or sample limits is all-or-nothing
+ok 50 - paste failure at body, coordinate, collision search or sample limits is all-or-nothing
+  ---
+  duration_ms: 4.6201
+  type: 'test'
+  ...
+# Subtest: group paste, delete and movement are one history entry and restore multi-selection
+ok 51 - group paste, delete and movement are one history entry and restore multi-selection
+  ---
+  duration_ms: 1.0185
+  type: 'test'
+  ...
+# Subtest: probe uses analytic Coulomb values and atan2, handles singularities, and rejects bad coordinates
+ok 52 - probe uses analytic Coulomb values and atan2, handles singularities, and rejects bad coordinates
+  ---
+  duration_ms: 0.5138
+  type: 'test'
+  ...
+# Subtest: ring/disk probes use the same quadrature as the engine; input focus retains native shortcuts
+ok 53 - ring/disk probes use the same quadrature as the engine; input focus retains native shortcuts
+  ---
+  duration_ms: 0.4255
+  type: 'test'
+  ...
+# Subtest: an invalid group translation leaves every body and the pending history unchanged
+ok 54 - an invalid group translation leaves every body and the pending history unchanged
+  ---
+  duration_ms: 0.2971
+  type: 'test'
+  ...
+# Subtest: 1. fixed positive charge holds its position and zero velocity
+ok 55 - 1. fixed positive charge holds its position and zero velocity
+  ---
+  duration_ms: 13.883
+  type: 'test'
+  ...
+# Subtest: 2. free positive charge is repelled by a fixed positive
+ok 56 - 2. free positive charge is repelled by a fixed positive
+  ---
+  duration_ms: 0.9628
+  type: 'test'
+  ...
+# Subtest: 3. free negative charge is attracted to a fixed positive
+ok 57 - 3. free negative charge is attracted to a fixed positive
+  ---
+  duration_ms: 1.0264
+  type: 'test'
+  ...
+# Subtest: 4. reversing charge sign reverses the exact initial force
+ok 58 - 4. reversing charge sign reverses the exact initial force
+  ---
+  duration_ms: 0.8304
+  type: 'test'
+  ...
+# Subtest: 5. q=0 means no electric force, with inertial velocity preserved
+ok 59 - 5. q=0 means no electric force, with inertial velocity preserved
+  ---
+  duration_ms: 2.8611
+  type: 'test'
+  ...
+# Subtest: 6. doubling mass halves acceleration at the same charge configuration
+ok 60 - 6. doubling mass halves acceleration at the same charge configuration
+  ---
+  duration_ms: 1.5052
+  type: 'test'
+  ...
+# Subtest: 7. ring center XY electric field cancels by symmetry
+ok 61 - 7. ring center XY electric field cancels by symmetry
+  ---
+  duration_ms: 1.3238
+  type: 'test'
+  ...
+# Subtest: 8. disk center XY electric field cancels by symmetry
+ok 62 - 8. disk center XY electric field cancels by symmetry
+  ---
+  duration_ms: 1.4395
+  type: 'test'
+  ...
+# Subtest: 9. all ring and disk sample charges sum to Q
+ok 63 - 9. all ring and disk sample charges sum to Q
+  ---
+  duration_ms: 1.0265
+  type: 'test'
+  ...
+# Subtest: disk quadrature has equal-area annuli, rather than equal-radius density bias
+ok 64 - disk quadrature has equal-area annuli, rather than equal-radius density bias
+  ---
+  duration_ms: 0.8469
+  type: 'test'
+  ...
+# Subtest: 10. an all-fixed scene never moves
+ok 65 - 10. an all-fixed scene never moves
+  ---
+  duration_ms: 0.9865
+  type: 'test'
+  ...
+# Subtest: 11. Reset restores initial positions and velocities without deleting objects
+ok 66 - 11. Reset restores initial positions and velocities without deleting objects
+  ---
+  duration_ms: 4.857
+  type: 'test'
+  ...
+# Subtest: Pause keeps position and velocity; Resume continues from that state
+ok 67 - Pause keeps position and velocity; Resume continues from that state
+  ---
+  duration_ms: 1.2729
+  type: 'test'
+  ...
+# Subtest: 12. camera zoom, pan and canvas resize preserve physical body coordinates
+ok 68 - 12. camera zoom, pan and canvas resize preserve physical body coordinates
+  ---
+  duration_ms: 0.8347
+  type: 'test'
+  ...
+# Subtest: 13. halving dt reduces maximum energy error by approximately four
+ok 69 - 13. halving dt reduces maximum energy error by approximately four
+  ---
+  duration_ms: 21.7531
+  type: 'test'
+  ...
+# {"energyError":{"dt008":0.0005662198246277278,"dt004":0.000141989153670046,"dt002":0.00003551234683323203}}
+# Subtest: in-plane ring near-center field matches the analytic restoring slope
+ok 70 - in-plane ring near-center field matches the analytic restoring slope
+  ---
+  duration_ms: 0.9521
+  type: 'test'
+  ...
+# Subtest: far fields of in-plane ring and disk approach the point-charge monopole
+ok 71 - far fields of in-plane ring and disk approach the point-charge monopole
+  ---
+  duration_ms: 0.6057
+  type: 'test'
+  ...
+# Subtest: disk external in-plane field converges against independent dense area quadrature
+ok 72 - disk external in-plane field converges against independent dense area quadrature
+  ---
+  duration_ms: 7.3554
+  type: 'test'
+  ...
+# {"diskReference":36.311321000911875,"relativeError":[0.0028550780425221902,0.0007103373637425189,0.00017741264730862153]}
+# Subtest: self-fields never accelerate an isolated free point, ring or disk
+ok 73 - self-fields never accelerate an isolated free point, ring or disk
+  ---
+  duration_ms: 1.5417
+  type: 'test'
+  ...
+# Subtest: free rigid ring/disk pair uses integrated external force and obeys action/reaction
+ok 74 - free rigid ring/disk pair uses integrated external force and obeys action/reaction
+  ---
+  duration_ms: 66.3578
+  type: 'test'
+  ...
+# Subtest: two free point charges preserve total momentum and center-of-mass motion
+ok 75 - two free point charges preserve total momentum and center-of-mass motion
+  ---
+  duration_ms: 15.6551
+  type: 'test'
+  ...
+# Subtest: initial transverse velocity is retained; trajectories are not forced onto field lines
+ok 76 - initial transverse velocity is retained; trajectories are not forced onto field lines
+  ---
+  duration_ms: 0.4443
+  type: 'test'
+  ...
+# Subtest: simulation speed does not change fixed-step physical trajectories
+ok 77 - simulation speed does not change fixed-step physical trajectories
+  ---
+  duration_ms: 4.5724
+  type: 'test'
+  ...
+# Subtest: geometric contact allows a point in a ring hole, but rejects charged material overlap
+ok 78 - geometric contact allows a point in a ring hole, but rejects charged material overlap
+  ---
+  duration_ms: 0.9584
+  type: 'test'
+  ...
+# Subtest: unsafe travel/tunneling and invalid dt pause before committing any corrupt state
+ok 79 - unsafe travel/tunneling and invalid dt pause before committing any corrupt state
+  ---
+  duration_ms: 0.5687
+  type: 'test'
+  ...
+# Subtest: invalid mass, radius, infinity, duplicate names and excessive quadrature work are rejected
+ok 80 - invalid mass, radius, infinity, duplicate names and excessive quadrature work are rejected
+  ---
+  duration_ms: 1.1595
+  type: 'test'
+  ...
+# Subtest: all supplied presets can take 500 safe physical steps
+ok 81 - all supplied presets can take 500 safe physical steps
+  ---
+  duration_ms: 50.7843
+  type: 'test'
+  ...
+# Subtest: trails are bounded and clearing trails does not reset physical time or velocity
+ok 82 - trails are bounded and clearing trails does not reset physical time or velocity
+  ---
+  duration_ms: 38.8346
+  type: 'test'
+  ...
+# Subtest: simulation JSON roundtrip preserves names, IDs, physical state, initial state and settings
+ok 83 - simulation JSON roundtrip preserves names, IDs, physical state, initial state and settings
+  ---
+  duration_ms: 4.205
+  type: 'test'
+  ...
+# Subtest: dynamic field paths include inward negative-only arrows and finite ring/disk paths
+ok 84 - dynamic field paths include inward negative-only arrows and finite ring/disk paths
+  ---
+  duration_ms: 81.0019
+  type: 'test'
+  ...
+1..84
+# tests 84
+# suites 0
+# pass 84
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2283.3431

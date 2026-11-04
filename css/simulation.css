@@ -62,3 +62,13 @@
 
 .quick-charge{display:flex;gap:6px;margin-top:7px}.quick-charge button{flex:1;font-size:11px;padding:5px}.sim-mode-tools #edit-undo,.sim-mode-tools #edit-redo{font-size:20px}.sim-mode-tools button:disabled{opacity:.3;cursor:default}[hidden]{display:none!important}
 @media(max-width:480px){.workspace{height:auto}.app-header{gap:8px}}
+
+.selection-actions{display:flex;gap:5px;margin-top:9px}.selection-actions button{padding:6px 7px;font-size:10px;flex:1;white-space:nowrap}
+#selection-summary{overflow-wrap:anywhere;color:#b6d9c8}#symmetry-status[data-active="true"]{color:#b6e9d0}
+.sim-mode-tools #probe-tool{width:auto;padding:0 7px;font-size:11px}
+.simulation-page .sim-probe{top:0;left:0;bottom:auto;width:216px;max-width:calc(100% - 16px);padding:10px;pointer-events:auto;z-index:8}
+.sim-probe .probe-heading{font-size:10px}.sim-probe #probe-close{margin-left:6px;border:0;background:transparent;font-size:19px;line-height:18px;padding:0 3px}
+.sim-probe .form-pair{margin:9px 0 5px;gap:6px;align-items:end}.sim-probe .form-pair label{font-size:10px;gap:4px}.sim-probe input{padding:6px;font:11px Consolas,monospace}.sim-probe button[type=submit]{padding:6px;font-size:10px}
+.sim-probe .probe-magnitude{font-size:18px;margin:7px 0;display:flex;align-items:center;gap:8px;overflow-wrap:anywhere}.sim-probe .probe-magnitude small{margin:0}.sim-probe .probe-details{gap:6px;padding-top:7px}.sim-probe .probe-details b{font-size:11px}
+
+.sim-probe .probe-heading>span{margin-left:auto}

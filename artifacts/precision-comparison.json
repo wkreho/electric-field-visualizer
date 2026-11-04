@@ -1,0 +1,258 @@
+{
+  "date": "2026-11-04",
+  "baselineCommit": "2de6d95f3015758d4d92383bcf2f12e0bf6ba67a",
+  "records": [
+    {
+      "type": "ring",
+      "quality": "low",
+      "version": "before",
+      "initialForce": {
+        "x": -1.4987220742409682e-8,
+        "y": -2.481541837659083e-24
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 2.1823423382925274e-16,
+      "maxVy": 5.058209445761764e-16,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "low",
+      "version": "after-off",
+      "initialForce": {
+        "x": -1.4987220742409685e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "low",
+      "version": "after-on",
+      "initialForce": {
+        "x": -1.4987220742409685e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "medium",
+      "version": "before",
+      "initialForce": {
+        "x": -1.4987214660710973e-8,
+        "y": 1.0339757656912846e-24
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 1.0913618342774572e-16,
+      "maxVy": 2.50268664206747e-16,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "medium",
+      "version": "after-off",
+      "initialForce": {
+        "x": -1.4987214660710977e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "medium",
+      "version": "after-on",
+      "initialForce": {
+        "x": -1.4987214660710977e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "high",
+      "version": "before",
+      "initialForce": {
+        "x": -1.498721466071093e-8,
+        "y": 4.963083675318166e-24
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 1.4588423531744862e-16,
+      "maxVy": 3.3819020850289114e-16,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "high",
+      "version": "after-off",
+      "initialForce": {
+        "x": -1.4987214660710937e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "ring",
+      "quality": "high",
+      "version": "after-on",
+      "initialForce": {
+        "x": -1.4987214660710937e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "low",
+      "version": "before",
+      "initialForce": {
+        "x": 4.909222213004881e-8,
+        "y": 3.308722450212111e-24
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 1.8616005530741894e-15,
+      "maxVy": 9.735244644918821e-17,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "low",
+      "version": "after-off",
+      "initialForce": {
+        "x": 4.90922221300488e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "low",
+      "version": "after-on",
+      "initialForce": {
+        "x": 4.90922221300488e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "medium",
+      "version": "before",
+      "initialForce": {
+        "x": 4.931385560236736e-8,
+        "y": 1.4475660719677984e-24
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 1.0627578820589028e-15,
+      "maxVy": 5.559257957678728e-17,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "medium",
+      "version": "after-off",
+      "initialForce": {
+        "x": 4.931385560236735e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "medium",
+      "version": "after-on",
+      "initialForce": {
+        "x": 4.931385560236735e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "high",
+      "version": "before",
+      "initialForce": {
+        "x": 4.936739094028422e-8,
+        "y": -3.618915179919496e-25
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 3.3769738817460034e-16,
+      "maxVy": 1.756074928276145e-17,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "high",
+      "version": "after-off",
+      "initialForce": {
+        "x": 4.936739094028418e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    },
+    {
+      "type": "disk",
+      "quality": "high",
+      "version": "after-on",
+      "initialForce": {
+        "x": 4.936739094028418e-8,
+        "y": 0
+      },
+      "steps": 10000,
+      "time": 19.999999999999794,
+      "maxY": 0,
+      "maxVy": 0,
+      "status": "running"
+    }
+  ]
+}

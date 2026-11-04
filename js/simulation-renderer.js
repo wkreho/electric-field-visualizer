@@ -28,7 +28,7 @@
         if(p.x+radius<-40||p.y+radius<-40||p.x-radius>this.width+40||p.y-radius>this.height+40)continue;
         ctx.beginPath();ctx.arc(p.x,p.y,Math.min(radius,1e7),0,Math.PI*2);ctx.strokeStyle=color;ctx.lineWidth=b.type==='ring'?3:1.7;
         if(b.type!=='ring'){ctx.fillStyle=b.type==='disk'?color+'1c':b.q>0?'#5a303a':b.q<0?'#263e60':'#35404e';ctx.fill();}ctx.stroke();
-        if(b.id===state.selected){ctx.beginPath();ctx.arc(p.x,p.y,Math.min(radius+7,1e7),0,Math.PI*2);ctx.strokeStyle=color+'c0';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.stroke();ctx.setLineDash([]);
+        if(state.selection?state.selection.includes(b.id):b.id===state.selected){ctx.beginPath();ctx.arc(p.x,p.y,Math.min(radius+7,1e7),0,Math.PI*2);ctx.strokeStyle=color+'c0';ctx.lineWidth=1;ctx.setLineDash([3,4]);ctx.stroke();ctx.setLineDash([]);
           if(b.type!=='point'&&radius>25){ctx.fillStyle=color+'70';for(const n of S.offsets(b,settings.quality)){const s=this.project(b.x+n.x,b.y+n.y,view);ctx.fillRect(s.x-1,s.y-1,2,2);}}
         }
         if(b.type!=='point'){ctx.fillStyle='#15202fe8';ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.fill();}
@@ -39,7 +39,7 @@
           if(settings.showForces)this.vector(ctx,p,engine.forces[index]?.x||0,engine.forces[index]?.y||0,'#dba0f5',true);
         }
       }
-      if(pointer?.inside){ctx.strokeStyle='#b2c5d1';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(pointer.x-4,pointer.y);ctx.lineTo(pointer.x+4,pointer.y);ctx.moveTo(pointer.x,pointer.y-4);ctx.lineTo(pointer.x,pointer.y+4);ctx.stroke();}
+      if(state.probe){const p=this.project(state.probe.x,state.probe.y,view);ctx.strokeStyle='#d5efe2';ctx.lineWidth=1.3;ctx.beginPath();ctx.arc(p.x,p.y,4,0,Math.PI*2);ctx.moveTo(p.x-9,p.y);ctx.lineTo(p.x+9,p.y);ctx.moveTo(p.x,p.y-9);ctx.lineTo(p.x,p.y+9);ctx.stroke();}
     }
   }
   root.EFSimulationRenderer=SimulationRenderer;

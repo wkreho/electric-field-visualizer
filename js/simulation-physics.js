@@ -5,7 +5,7 @@
   const P=root.EFPhysics||(typeof require!=='undefined'&&require('./physics.js'));
   const LIMITS=Object.freeze({bodies:16,position:1e6,charge:1e-3,minMass:1e-18,maxMass:1e6,minRadius:.005,maxRadius:1000,velocity:1e6,pairs:120000});
   const QUALITY=Object.freeze({low:{ring:16,radial:2,angular:16},medium:{ring:32,radial:4,angular:24},high:{ring:64,radial:8,angular:32}});
-  const DEFAULTS=Object.freeze({dt:.002,speed:1,collisionRadius:.015,quality:'medium',fieldQuality:'low',fieldInterval:400,lineDensity:20,arrowDensity:1,lineWidth:1.1,arrowSize:4.5,showFieldLines:true,showArrows:true,showTrails:true,showVelocity:true,showForces:false,showGrid:true,showFieldControls:true});
+  const DEFAULTS=Object.freeze({dt:.002,speed:1,collisionRadius:.015,quality:'medium',fieldQuality:'low',fieldInterval:400,lineDensity:20,arrowDensity:1,lineWidth:1.1,arrowSize:4.5,showFieldLines:true,showArrows:true,showTrails:true,showVelocity:true,showForces:false,showGrid:true,showFieldControls:true,preserveXAxisSymmetry:false});
   const clone=items=>items.map(b=>({...b}));
   const templates=new Map();
   function offsets(body,quality='medium') {
@@ -17,10 +17,12 @@
     for(let j=0;j<nr;j++){
       // Uniform midpoint cells in r²: every annulus/sector has identical area.
       const r=body.type==='ring'?body.radius:body.radius*Math.sqrt((j+.5)/nr);
-      for(let i=0;i<nt/2;i++){
-        const angle=(i+(j%2)*.5)*2*Math.PI/nt,x=r*Math.cos(angle),y=r*Math.sin(angle),w=1/(nr*nt);
-        // Antipodal pairs preserve the exact centroid and central symmetry.
-        result.push({x,y,w},{x:-x,y:-y,w});
+      const w=1/(nr*nt),stagger=j%2;
+      // Exact reflection pairs, not separately rounded sin/cos at opposite angles.
+      if(!stagger)result.push({x:r,y:0,w},{x:-r,y:0,w},{x:0,y:r,w},{x:0,y:-r,w});
+      for(let i=stagger?0:1;i<nt/4;i++){
+        const angle=(i+stagger*.5)*2*Math.PI/nt,x=r*Math.cos(angle),y=r*Math.sin(angle);
+        result.push({x,y,w},{x,y:-y,w},{x:-x,y,w},{x:-x,y:-y,w});
       }
     }
     if(templates.size>=128)templates.delete(templates.keys().next().value);
@@ -47,20 +49,51 @@
     const counts=bodies.map(b=>b.q===0?0:offsets(b,quality).length);let cost=0;
     for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++)if(!bodies[i].fixed||!bodies[j].fixed)cost+=counts[i]*counts[j];return cost;
   }
+  // Neumaier's compensated sum also retains terms smaller than a later addend.
+  class Sum{
+    constructor(){this.sum=0;this.error=0;}
+    add(value){const total=this.sum+value;this.error+=Math.abs(this.sum)>=Math.abs(value)?(this.sum-total)+value:(value-total)+this.sum;this.sum=total;}
+    value(){return this.sum+this.error;}
+  }
   function forces(bodies,quality='medium'){
     if(workCount(bodies,quality)>LIMITS.pairs)throw new Error('힘 계산 샘플쌍이 120,000개를 초과합니다. 물체 수나 샘플 품질을 낮추세요.');
-    const result=bodies.map(()=>({x:0,y:0})),nodes=bodies.map(b=>offsets(b,quality));
+    const sums=bodies.map(()=>({x:new Sum(),y:new Sum()})),nodes=bodies.map(b=>offsets(b,quality));
     for(let i=0;i<bodies.length;i++)for(let j=i+1;j<bodies.length;j++){
       const a=bodies[i],b=bodies[j];if((a.fixed&&b.fixed)||!a.q||!b.q)continue;
-      let fx=0,fy=0;
+      const sx=new Sum(),sy=new Sum(),cx=a.x-b.x,cy=a.y-b.y;
       for(const u of nodes[i])for(const v of nodes[j]){
-        const dx=a.x+u.x-b.x-v.x,dy=a.y+u.y-b.y-v.y,r=Math.hypot(dx,dy);
+        // Subtract centers first: a large common translation must not eat offsets.
+        const dx=cx+(u.x-v.x),dy=cy+(u.y-v.y),r=Math.hypot(dx,dy);
         if(r===0)throw new Error('샘플 특이점: 겹친 물체의 위치를 조정하세요.');
-        const f=P.K*(a.q*u.w)*(b.q*v.w)/r/r;fx+=f*dx/r;fy+=f*dy/r;
+        const f=P.K*(a.q*u.w)*(b.q*v.w)/r/r;sx.add(f*dx/r);sy.add(f*dy/r);
       }
+      const fx=sx.value(),fy=sy.value();
       if(!Number.isFinite(fx)||!Number.isFinite(fy))throw new Error('유한하지 않은 전기력이 감지되어 정지했습니다.');
-      // Compute each pair once: Newton's third law holds at quadrature precision.
-      result[i].x+=fx;result[i].y+=fy;result[j].x-=fx;result[j].y-=fy;
+      // A pair is still evaluated once, with equal/opposite contributions.
+      sums[i].x.add(fx);sums[i].y.add(fy);sums[j].x.add(-fx);sums[j].y.add(-fy);
+    }
+    return sums.map(s=>({x:s.x.value(),y:s.y.value()}));
+  }
+  function reflected(a,b){return ['x','q','mass','radius','type','fixed','vx'].every(k=>a[k]===b[k])&&a.y===-b.y&&a.vy===-b.vy;}
+  function symmetryState(initial,bodies){
+    const off=reason=>({active:false,reason,pairs:[]});
+    if(!initial.length)return off('전하를 추가하세요.');
+    const used=new Set(),pairs=[];
+    for(const a of initial){
+      if(used.has(a.id))continue;
+      const b=a.y===0&&a.vy===0?a:initial.find(b=>b.id!==a.id&&!used.has(b.id)&&reflected(a,b));
+      if(!b)return off('초기 배치·전하·질량·형태·속도가 x축 반사대칭이 아닙니다.');
+      used.add(a.id);used.add(b.id);pairs.push([a.id,b.id]);
+    }
+    if(bodies.length!==initial.length)return off('현재 물체와 초기조건이 다릅니다.');
+    for(const [aId,bId]of pairs){const a=bodies.find(b=>b.id===aId),b=bodies.find(b=>b.id===bId);if(!a||!b||!reflected(a,b))return off('현재 배치 또는 속도의 대칭이 깨져 보존을 해제했습니다.');}
+    return {active:true,reason:'활성 · 정확한 x축 반사대칭을 보존합니다.',pairs};
+  }
+  function symmetryForces(raw,bodies,symmetry){
+    if(!symmetry.active)return raw;
+    const result=raw.map(f=>({...f})),indices=new Map(bodies.map((b,i)=>[b.id,i]));
+    for(const [a,b]of symmetry.pairs){const i=indices.get(a),j=indices.get(b);if(i===j){result[i].y=0;continue;}
+      const x=raw[i].x*.5+raw[j].x*.5,y=raw[i].y*.5-raw[j].y*.5;result[i]={x,y};result[j]={x,y:-y};
     }
     return result;
   }
@@ -95,7 +128,7 @@
     const settings={...DEFAULTS},ranges={dt:[1e-5,.02],speed:[.1,8],collisionRadius:[1e-5,.2],fieldInterval:[150,1500],lineDensity:[8,64],arrowDensity:[.4,2],lineWidth:[.5,3],arrowSize:[3,9]};
     for(const [key,[min,max]]of Object.entries(ranges))if(key in input)settings[key]=number(input[key],min,max,key);
     for(const key of ['quality','fieldQuality'])if(key in input){if(typeof input[key]!=='string'||!Object.hasOwn(QUALITY,input[key]))throw new Error('샘플 품질 설정이 잘못되었습니다.');settings[key]=input[key];}
-    for(const key of ['showFieldLines','showArrows','showTrails','showVelocity','showForces','showGrid','showFieldControls'])if(key in input){if(typeof input[key]!=='boolean')throw new Error('표시 설정은 true 또는 false여야 합니다.');settings[key]=input[key];}
+    for(const key of ['showFieldLines','showArrows','showTrails','showVelocity','showForces','showGrid','showFieldControls','preserveXAxisSymmetry'])if(key in input){if(typeof input[key]!=='boolean')throw new Error('표시 설정은 true 또는 false여야 합니다.');settings[key]=input[key];}
     return settings;
   }
   function validateScene(data){
@@ -116,22 +149,27 @@
     constructor(bodies=[],settings={}){this.settings=validateSettings(settings);this.bodies=[];this.initial=[];this.time=0;this.status='ready';this.message='';this.trails=new Map();this.replace(bodies);}
     replace(bodies){
       const next=validateBodies(bodies),message=contact(next,this.settings.collisionRadius);if(message)throw new Error(message);
-      const f=forces(next,this.settings.quality);this.bodies=next;this.initial=clone(next);this.forces=f;this.time=0;this.status='ready';this.message='';this.clearTrails();
+      const f=forces(next,this.settings.quality);this.bodies=next;this.initial=clone(next);this.forces=f;this.time=0;this.status='ready';this.message='';this.refreshForces(this.forces);this.clearTrails();
     }
-    configure(changes){const next=validateSettings({...this.settings,...changes}),message=contact(this.bodies,next.collisionRadius);if(message)throw new Error(message);const f=next.quality===this.settings.quality?this.forces:forces(this.bodies,next.quality);this.settings=next;this.forces=f;}
+    get symmetry(){return this.settings.preserveXAxisSymmetry?symmetryState(this.initial,this.bodies):{active:false,reason:'OFF · 자유 운동',pairs:[]};}
+    refreshForces(raw=forces(this.bodies,this.settings.quality)){const symmetry=this.symmetry;this.forces=symmetryForces(raw,this.bodies,symmetry);this.symmetryApplied=symmetry.active;}
+    configure(changes){const next=validateSettings({...this.settings,...changes}),message=contact(this.bodies,next.collisionRadius);if(message)throw new Error(message);const raw=next.quality!==this.settings.quality||next.preserveXAxisSymmetry!==this.settings.preserveXAxisSymmetry?forces(this.bodies,next.quality):this.forces;this.settings=next;const symmetry=this.symmetry;this.forces=symmetryForces(raw,this.bodies,symmetry);this.symmetryApplied=symmetry.active;}
     start(){if(!this.bodies.length)throw new Error('먼저 전하를 추가하세요.');this.message='';this.status='running';}
     pause(message=''){if(this.status==='running'||message)this.status='paused';this.message=message;}
-    reset(){this.bodies=clone(this.initial);this.forces=forces(this.bodies,this.settings.quality);this.time=0;this.status='ready';this.message='';this.clearTrails();}
-    restore(data){this.settings=data.settings;this.bodies=clone(data.bodies);this.initial=clone(data.initial);this.time=data.time;this.forces=forces(this.bodies,this.settings.quality);this.status=data.time>0?'paused':'ready';this.message='';this.clearTrails();}
+    reset(){this.bodies=clone(this.initial);this.forces=forces(this.bodies,this.settings.quality);this.time=0;this.status='ready';this.message='';this.refreshForces(this.forces);this.clearTrails();}
+    restore(data){this.settings=data.settings;this.bodies=clone(data.bodies);this.initial=clone(data.initial);this.time=data.time;this.forces=forces(this.bodies,this.settings.quality);this.status=data.time>0?'paused':'ready';this.message='';this.refreshForces(this.forces);this.clearTrails();}
     clearTrails(){this.trails=new Map(this.bodies.map(b=>[b.id,[b.x,b.y]]));this.lastTrail=this.time;}
     step(dt=this.settings.dt){
       if(this.status!=='running')return false;
       try{
         number(dt,1e-5,.02,'Δt');
+        const symmetry=this.symmetry;
+        if(this.symmetryApplied&&!symmetry.active)this.forces=forces(this.bodies,this.settings.quality);
+        const currentForces=symmetryForces(this.forces,this.bodies,symmetry);
         const candidates=clone(this.bodies),travel=[];
         for(let i=0;i<candidates.length;i++){
           const b=candidates[i],old=this.bodies[i];
-          if(!b.fixed){b.vx+=.5*dt*this.forces[i].x/b.mass;b.vy+=.5*dt*this.forces[i].y/b.mass;b.x+=dt*b.vx;b.y+=dt*b.vy;}
+          if(!b.fixed){b.vx+=.5*dt*currentForces[i].x/b.mass;b.vy+=.5*dt*currentForces[i].y/b.mass;b.x+=dt*b.vx;b.y+=dt*b.vy;}
           travel.push(Math.hypot(b.x-old.x,b.y-old.y));
           if(![b.x,b.y,b.vx,b.vy].every(Number.isFinite)||Math.abs(b.x)>LIMITS.position||Math.abs(b.y)>LIMITS.position||Math.hypot(b.vx,b.vy)>LIMITS.velocity)throw new Error('위치·속도 안전 범위를 초과했습니다. 전하량·질량·초기 속도·Δt를 조정하세요.');
         }
@@ -140,9 +178,10 @@
           const clearance=gap(this.bodies[i],this.bodies[j])-this.settings.collisionRadius;
           if(travel[i]+travel[j]>.4*clearance)throw new Error('근접 물체 사이에서 한 스텝 이동량이 너무 큽니다. 마지막 안전 상태에서 정지했습니다. Δt를 줄이거나 배치를 조정하세요.');
         }
-        const f=forces(candidates,this.settings.quality);
+        const nextSymmetry=this.settings.preserveXAxisSymmetry?symmetryState(this.initial,candidates):{active:false,pairs:[]};
+        const f=symmetryForces(forces(candidates,this.settings.quality),candidates,nextSymmetry);
         for(let i=0;i<candidates.length;i++)if(!candidates[i].fixed){const b=candidates[i];b.vx+=.5*dt*f[i].x/b.mass;b.vy+=.5*dt*f[i].y/b.mass;if(!Number.isFinite(b.vx)||!Number.isFinite(b.vy)||Math.hypot(b.vx,b.vy)>LIMITS.velocity)throw new Error('속도 안전 제한으로 일시정지했습니다. Δt 또는 전하량을 줄이세요.');}
-        this.bodies=candidates;this.forces=f;this.time+=dt;
+        this.bodies=candidates;this.forces=f;this.symmetryApplied=nextSymmetry.active;this.time+=dt;
         if(this.time-this.lastTrail>=.02-1e-12){for(const b of this.bodies)if(!b.fixed){const trail=this.trails.get(b.id);trail.push(b.x,b.y);if(trail.length>2048)trail.splice(0,trail.length-2048);}this.lastTrail=this.time;}
         return true;
       }catch(error){this.pause(error.message);return false;}
@@ -163,5 +202,5 @@
     moving:{label:'Multiple Moving Charges',description:'두 자유 양전하가 서로 반발하며 질량중심의 운동량을 보존합니다.',bodies:[body(1,'Moving A','point',1e-9,-.8,0,false,0,1e-8,0,.2),body(2,'Moving B','point',1e-9,.8,0,false,0,1e-8,0,-.2)]}
   });
   function serialize(engine,view){return {application:'FIELDWORK_SIMULATION',version:1,bodies:clone(engine.bodies),initialBodies:clone(engine.initial),time:engine.time,settings:{...engine.settings},view:{...view}};}
-  const api={LIMITS,QUALITY,DEFAULTS,PRESETS,clone,offsets,samples,fieldAt,gap,contact,workCount,forces,energy,number,validateBodies,validateSettings,validateScene,serialize,Engine,body};root.EFSimulation=api;if(typeof module!=='undefined')module.exports=api;
+  const api={Sum,symmetryState,symmetryForces,LIMITS,QUALITY,DEFAULTS,PRESETS,clone,offsets,samples,fieldAt,gap,contact,workCount,forces,energy,number,validateBodies,validateSettings,validateScene,serialize,Engine,body};root.EFSimulation=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof self!=='undefined'?self:globalThis);
